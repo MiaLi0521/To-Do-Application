@@ -1,0 +1,19 @@
+<div class="row item card-panel hoverable" data-href="{{ url_for('.edit_item', item_id=item.id) }}"
+     data-id="{{ item.id }}" data-body="{{ item.body }}" data-done="{{ item.done|tojson }}">
+    <span class="item-body">
+        <a class="button done-btn" data-href="{{ url_for('.toggle_item', item_id=item.id) }}">
+            <span class="oi oi-task"{% if item.done %} style="color:#cccccc"{% endif %}></span>&nbsp;
+        </a>
+        <span class="{% if item.done %}inactive-item{% else %}active-item{% endif %}" id="body{{ item.id }}">
+            {{ item.body }}
+        </span>
+    </span>
+    <span class="hide edit-btns right">
+        <a class="right button delete-btn" data-href="{{ url_for('.delete_item', item_id=item.id) }}">
+            <span class="oi oi-trash"></span> clear
+        </a>
+        <a class="right button edit-btn">
+            <span class="oi oi-pencil"></span> edit &nbsp;&nbsp;
+        </a>
+    </span>
+</div>

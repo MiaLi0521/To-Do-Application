@@ -1,0 +1,60 @@
+<nav class="green lighten-2" role="navigation">
+    <div class="nav-wrapper container">
+        <a href="#intro" class="brand-logo">Todoism</a>
+        <a data-target="nav-mobile" class="sidenav-trigger button"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+            {% if current_user.is_authenticated %}
+                <li>
+                    <a class="waves-effect waves-light btn orange" href="#app">{{ current_user.username }}
+                        <span class="badge new" id="active-count-nav">{{ active_items }}</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect waves-light" id="logout-btn" data-href="{{ url_for('auth.logout') }}">
+                        <span class="oi oi-power-standby"></span>
+                    </a>
+                </li>
+            {% else %}
+                <li><a class="waves-effect waves-light btn red" href="#login">{{ _('Login') }}</a></li>
+            {% endif %}
+            <li>
+                <a class="waves-effect waves-light dropdown-trigger" id="locale-dropdown-btn" data-target="locale-dropdown">
+                    <span class="oi oi-globe"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<ul id="nav-mobile" class="sidenav">
+    {% if current_user.is_authenticated %}
+        <li><a class="waves-effect waves-light btn red clear-btn sidenav-close">Clear</a></li>
+        <li><a class="waves-effect waves-light btn orange sidenav-close" id="app-btn"
+               href="#app">{{ current_user.username }}</a>
+        </li>
+        <li><a class="waves-effect waves-light btn grey sidenav-close" id="logout-btn"
+               data-href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
+    {% else %}
+        <li><a class="waves-effect waves-light btn red sidenav-close" href="#login">{{ _('Login') }}</a></li>
+    {% endif %}
+</ul>
+
+<ul id="locale-dropdown" class="dropdown-content">
+    {% for foo in config['TODOISM_LOCALES'] %}
+        <li>
+            <a class="lang-btn" data-href="{{ url_for('home.set_locale', locale=foo) }}">
+                {{ Locale.parse(foo).get_language_name(foo) }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="center">
+    <small>&copy; 2020 <a class="blue-text link" href="#" title="Writen by MiaLi">MiaLi - </a></small>
+    <a class="blue-text link" href="#">GitHub - </a>
+    <a class="blue-text link" href="#">HelloFlask</a>
+</footer>
